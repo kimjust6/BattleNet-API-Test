@@ -37,11 +37,29 @@ def player():
 
     return
 
+def get_token(blizzard_client_id, blizzard_client_secret):
+    #function that uses the client and returns the token
+    parameters = { "grant_type" : "client_credentials",
+                    "scope" : "sc2.profile",
+                    "client_id" : blizzard_client_id,
+                    "client_secret" : blizzard_client_secret }
+
+    response = requests.post("https://us.battle.net/oauth/token", data = parameters)
+    #print(response.json())
+    return response.json()["access_token"]
+    #return response.json()
+
+
 def main():
     #declarations and definitions
     base_url = 'https://us.api.blizzard.com'
     player_addon = "/sc2/player/"
-    token = "UScF6hzrVPN11o8HYguFq2bE2r2J4lYNjk"
+    blizzard_client_id = ""
+    blizzard_client_secret = ""
+
+    #requests blizzard api for a token
+    token = get_token(blizzard_client_id, blizzard_client_secret)
+    #token = "UScF6hzrVPN11o8HYguFq2bE2r2J4lYNjk"
     user_input = ""
 
     #get user input to see what they want to do
