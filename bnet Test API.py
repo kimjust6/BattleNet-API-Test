@@ -37,21 +37,39 @@ def player():
 
     return
 
+def get_token(blizzard_client_id, blizzard_client_secret):
+    #function that uses the client and returns the token
+    parameters = { "grant_type" : "client_credentials",
+                    "scope" : "sc2.profile",
+                    "client_id" : blizzard_client_id,
+                    "client_secret" : blizzard_client_secret }
+
+    response = requests.post("https://us.battle.net/oauth/token", data = parameters)
+    #print(response.json())
+    return response.json()["access_token"]
+    #return response.json()
+
+
 def main():
     #declarations and definitions
     base_url = 'https://us.api.blizzard.com'
     player_addon = "/sc2/player/"
-    token = "UScF6hzrVPN11o8HYguFq2bE2r2J4lYNjk"
+    blizzard_client_id = ""
+    blizzard_client_secret = ""
+
+    #requests blizzard api for a token
+    token = get_token(blizzard_client_id, blizzard_client_secret)
+    #token = "UScF6hzrVPN11o8HYguFq2bE2r2J4lYNjk"
     user_input = ""
-    
+
     #get user input to see what they want to do
     #here is where we would  get authorization if our token expires
-    
+
     while user_input != "exit":
         user_input = input("Please enter an account number:\n")
         url = base_url + player_addon + user_input + "?access_token=" + token
         response = requests.get(url)
-        
+
         #check if response is valid
         if response.status_code == 200 and len( response.json() ) > 0:
             print("The account belongs to: " + response.json()[0]["name"])
@@ -63,7 +81,7 @@ def main():
 
 if __name__ == '__main__':
     main()
-   
+
 
 
 accountId = "1"
@@ -83,7 +101,3 @@ print(response.content)
 print('\n')
 print(response.json()[0]["profileId"])
 count = 0
-
-
-
-
