@@ -1,2 +1,2 @@
 # BattleNet-API-Test
-Text program that can interact with the Blizzard API
+# This is a python script that can interact with the Blizzard API
