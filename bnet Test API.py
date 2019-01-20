@@ -5,24 +5,28 @@ import sys
 '''function that calls the metadata api
 '''
 def metadata( region_id, realm_id, profile_id ):
-
+    parameters = {"region" : "US",
+                  "regionId" : region_id,
+                  "realmId" : realm_id,
+                  "profileId" : profile_id,
+                  "locale" : "en_US"}
     return
 
 '''function that calls the profile api
 '''
-def profile( region, region_id, realm_id, profile_id, locale ):
+def profile( region, region_id, realm_id, profile_id ):
 
     return
 
 '''function that calls the ladder_summary api
 '''
-def ladder_summary( region, region_id, realm_id, profile_id, locale ):
+def ladder_summary( region, region_id, realm_id, profile_id ):
 
     return
 
 '''function that calls the ladder api
 '''
-def ladder( region, region_id, realm_id, profile_id, ladder_id, locale ):
+def ladder( region, region_id, realm_id, profile_id, ladder_id ):
 
     return
 
@@ -46,7 +50,7 @@ def player( region, account_id ):
 
 '''assigns token an access_token given a client_id and client_secret
 '''
-def get_token( blizzard_client_id, blizzard_client_secret, token ):
+def get_token( blizzard_client_id, blizzard_client_secret ):
     #function that uses the client and returns the token
     parameters = { "grant_type" : "client_credentials",
                     "scope" : "sc2.profile",
@@ -55,8 +59,8 @@ def get_token( blizzard_client_id, blizzard_client_secret, token ):
 
     response = requests.post("https://us.battle.net/oauth/token", data = parameters)
 
-    token = response.json()["access_token"]
-    return
+    #token = response.json()["access_token"]
+    return response.json()["access_token"]
 
 
 
@@ -64,19 +68,18 @@ def main():
     #declarations and definitions
     base_url = 'https://us.api.blizzard.com'
     player_addon = "/sc2/player/"
-	blizzard_client_id = ""
-    blizzard_client_secret = ""
     token = ""
     user_input = ""
+    blizzard_client_id = "3f6567f1172c4c56bb36388cea125773"
+    blizzard_client_secret = "b7MgOxm5Hn4l47s2nHyK8JcuMLtqCIS2"
 
     #requests blizzard api for a token
     #the value of token is overwritten
-    get_token( blizzard_client_id, blizzard_client_secret, token )
+    token = get_token( blizzard_client_id, blizzard_client_secret )
 
 
     #get user input to see what they want to do
     #here is where we would  get authorization if our token expires
-
     while user_input != "exit":
         user_input = input("Please enter an account number:\n")
         url = base_url + player_addon + user_input + "?access_token=" + token
@@ -93,23 +96,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-account_id = "1"
-
-
-
-
-response = requests.get("https://us.api.blizzard.com/sc2/player/1?access_token=USFphSnBwCSML3B2Wy6unTX3FpQBcIDc6L")
-
-#response_string = response.content.decode('utf-8')
-response_string = response.content
-#print(response_string)
-#print(type(response_string))
-
-response_string = json.loads(response.content)
-print(response.content)
-print('\n')
-print(response.json()[0]["profileId"])
-count = 0
