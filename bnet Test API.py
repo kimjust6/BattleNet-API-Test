@@ -2,6 +2,9 @@ import requests
 import json
 import sys
 
+#import variables blizzard_client_id and blizzard_client_secret
+import consts
+
 '''function that calls the metadata api
 '''
 def metadata( base_url, region_id, realm_id, profile_id ):
@@ -33,7 +36,7 @@ def profile( region_id, realm_id, profile_id ):
 
 '''function that calls the ladder_summary api
 '''
-def ladder_summary( region_id, realm_id, profile_id ):
+def ladderSummary( region_id, realm_id, profile_id ):
     parameters = { "region" : "US",
                    "regionId" : region_id,
                    "realmId" : realm_id,
@@ -54,7 +57,7 @@ def ladder( region_id, realm_id, profile_id, ladder_id ):
 
 '''function that calls the grandmaster_leaderboard api
 '''
-def grandmaster_leaderboard( region, region_id ):
+def grandmasterLeaderboard( region, region_id ):
     parameters = { "region" : "US",
                    "regionId" : region_id }
     return
@@ -80,10 +83,10 @@ def player( base_url, token, account_id ):
     print( token )
     return response
 
-'''function that uses the client and returns the token
+'''function that uses the client_id and client_secret and returns the token
 returns the token
 '''
-def get_token( blizzard_client_id, blizzard_client_secret ):
+def getToken( blizzard_client_id, blizzard_client_secret ):
     #
     parameters = { "grant_type" : "client_credentials",
                     "scope" : "sc2.profile",
@@ -102,27 +105,26 @@ def main():
     base_url = 'https://us.api.blizzard.com'
     player_addon = "/sc2/player/"
     token = user_input = ""
-    #import variables blizzard_client_id and blizzard_client_secret
-    import secret_and_key
+
 
     #requests blizzard api for a token
     #the value of token is overwrittenbase_url
-    token = get_token( secret_and_key.blizzard_client_id, secret_and_key.blizzard_client_secret )
+    token = getToken( consts.BLIZZARD_CLIENT_ID, consts.BLIZZARD_CLIENT_SECRET )
 
 
     #get user input to see what they want to do
     #here is where we would  get authorization if our token expires
+    user_input = input("Please enter an account number:\n")
     while user_input != "exit":
-        user_input = input("Please enter an account number:\n")
         response = player( base_url, token, user_input )
-        #url = base_url + player_addon + user_input + "?access_token=" + token
-        #response = requests.get(url)
 
         #check if response is valid
         if response.status_code == 200 and len( response.json() ) > 0:
             print("The account belongs to: " + response.json()[0]["name"])
         else:
             print( "Error! Code: " + str(response.status_code) )
+
+        user_input = input("Please enter an account number:\n")
 
     #end program
     sys.exit()
