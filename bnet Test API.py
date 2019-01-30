@@ -5,20 +5,32 @@ import sys
 #import variables blizzard_client_id and blizzard_client_secret
 import consts
 
+class blizz_api:
+    def __init__( self, token, base_url,  ):
+        self.token = token
+        self.base_url = base_url
+    #def api_call:
+    #    pass
+        #response = requests.get( url, params = parameters )
+    #def __str__(self):
+        #print( response )
+        pass
+
+
 '''function that calls the metadata api
 '''
 def metadata( base_url, region_id, realm_id, profile_id ):
     #set the parameters
     parameters = { "region" : "US",
-                   "regionId" : region_id,
-                   "realmId" : realm_id,
-                   "profileId" : profile_id,
-                   "locale" : "en_US",
+                   "regionId" : region_id, \
+                   "realmId" : realm_id, \
+                   "profileId" : profile_id, \
+                   "locale" : "en_US", \
                    "access_token" : token }
 
-    api_path = "/sc2/metadata/profile/"
-               + region_id + "/"
-               + realm_id + "/"
+    api_path = "/sc2/metadata/profile/" \
+               + region_id + "/" \
+               + realm_id + "/" \
                + profile_id
     #make the api call
     url = base_url + api_path
@@ -37,9 +49,9 @@ def profile( base_url, token, region_id, realm_id, profile_id ):
                    "locale" : "en_US",
                    "access_token" : token }
 
-    api_path = "/sc2/profile/"
-               + region_id + "/"
-               + realm_id + "/"
+    api_path = "/sc2/profile/" \
+               + region_id + "/" \
+               + realm_id + "/" \
                + profile_id
 
     url = base_url + api_path
@@ -58,11 +70,11 @@ def ladderSummary( base_url, token, region_id, realm_id, profile_id ):
                    "locale" : "en_US",
                    "access_token" : token }
 
-    api_path = "/sc2/profile/"
-               + region_id + "/"
-               + realm_id + "/"
-               + profile_id + "/"
-               + "ladder"  + "/"
+    api_path = "/sc2/profile/" \
+               + region_id + "/" \
+               + realm_id + "/" \
+               + profile_id + "/" \
+               + "ladder"  + "/" \
                + "summary"
 
     url = base_url + api_path
@@ -82,11 +94,11 @@ def ladder( base_url, token, region_id, realm_id, profile_id, ladder_id ):
                    "locale" : "en_US",
                    "access_token" : token }
 
-    api_path = "/sc2/profile/"
-               + region_id + "/"
-               + realm_id + "/"
-               + profile_id + "/"
-               + "ladder" + "/"
+    api_path = "/sc2/profile/" \
+               + region_id + "/" \
+               + realm_id + "/" \
+               + profile_id + "/" \
+               + "ladder" + "/" \
                + ladder_id
     url = base_url + api_path
     #make the api call
@@ -100,7 +112,7 @@ def grandmasterLeaderboard( base_url, token, region_id ):
     parameters = { "region" : "US",
                    "regionId" : region_id,
                    "access_token" : token }
-    api_path = "/sc2/ladder/grandmaster/"
+    api_path = "/sc2/ladder/grandmaster/" \
                + region_id
     url = base_url + api_path
     #make the api call
@@ -114,7 +126,7 @@ def season( base_url, token, region_id ):
                    "regionId" : region_id,
                    "access_token" : token }
 
-    api_path = "/sc2/ladder/season"
+    api_path = "/sc2/ladder/season" \
                + region_id
     url = base_url + api_path
     #make the api call
